@@ -23,6 +23,7 @@ from asyncio import CancelledError, Future, sleep
 from unittest import mock
 
 import pytest
+from google.api_core.gapic_v1.method import DEFAULT
 from google.cloud.dataproc_v1 import Batch, Cluster, ClusterStatus, Job, JobStatus
 from google.protobuf.any_pb2 import Any
 from google.rpc.status_pb2 import Status
@@ -747,6 +748,7 @@ class TestDataprocSubmitJobDirectTrigger:
             region=TEST_REGION,
             job=TEST_JOB,
             request_id=TEST_REQUEST_ID,
+            retry=DEFAULT,
         )
 
     @pytest.mark.asyncio

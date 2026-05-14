@@ -26,6 +26,7 @@ from typing import TYPE_CHECKING, Any
 
 from dateutil import parser
 from google.api_core.exceptions import NotFound
+from google.api_core.gapic_v1.method import DEFAULT
 
 from airflow.exceptions import AirflowProviderDeprecationWarning
 from airflow.providers.common.compat.sdk import AirflowException
@@ -143,6 +144,7 @@ class CloudComposerAirflowCLICommandTrigger(BaseTrigger):
                 environment_id=self.environment_id,
                 execution_cmd_info=self.execution_cmd_info,
                 poll_interval=self.poll_interval,
+                retry=DEFAULT,
             )
         except AirflowException as ex:
             yield TriggerEvent(
@@ -242,6 +244,7 @@ class CloudComposerDAGRunTrigger(BaseTrigger):
                 project_id=self.project_id,
                 region=self.region,
                 environment_id=self.environment_id,
+                retry=DEFAULT,
             )
         except NotFound as not_found_err:
             self.log.info("The Composer environment %s does not exist.", self.environment_id)
@@ -400,6 +403,7 @@ class CloudComposerExternalTaskTrigger(BaseTrigger):
                 project_id=self.project_id,
                 region=self.region,
                 environment_id=self.environment_id,
+                retry=DEFAULT,
             )
         except NotFound as not_found_err:
             self.log.info("The Composer environment %s does not exist.", self.environment_id)

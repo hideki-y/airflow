@@ -20,6 +20,7 @@ from collections.abc import AsyncIterator, Sequence
 from functools import cached_property
 from typing import TYPE_CHECKING, Any
 
+from google.api_core.gapic_v1.method import DEFAULT
 from google.cloud.aiplatform_v1 import (
     BatchPredictionJob,
     HyperparameterTuningJob,
@@ -144,6 +145,7 @@ class CreateHyperparameterTuningJobTrigger(BaseVertexAIJobTrigger):
             location=self.location,
             job_id=self.job_id,
             poll_interval=self.poll_interval,
+            retry=DEFAULT,
         )
         return job
 
@@ -166,6 +168,7 @@ class CreateBatchPredictionJobTrigger(BaseVertexAIJobTrigger):
             location=self.location,
             job_id=self.job_id,
             poll_interval=self.poll_interval,
+            retry=DEFAULT,
         )
         return job
 
@@ -190,6 +193,7 @@ class RunPipelineJobTrigger(BaseVertexAIJobTrigger):
             location=self.location,
             job_id=self.job_id,
             poll_interval=self.poll_interval,
+            retry=DEFAULT,
         )
         return job
 
@@ -221,6 +225,7 @@ class CustomTrainingJobTrigger(BaseVertexAIJobTrigger):
             location=self.location,
             pipeline_id=self.job_id,
             poll_interval=self.poll_interval,
+            retry=DEFAULT,
         )
         return pipeline
 
@@ -252,6 +257,7 @@ class CustomContainerTrainingJobTrigger(BaseVertexAIJobTrigger):
             location=self.location,
             pipeline_id=self.job_id,
             poll_interval=self.poll_interval,
+            retry=DEFAULT,
         )
         return pipeline
 
@@ -283,5 +289,6 @@ class CustomPythonPackageTrainingJobTrigger(BaseVertexAIJobTrigger):
             location=self.location,
             pipeline_id=self.job_id,
             poll_interval=self.poll_interval,
+            retry=DEFAULT,
         )
         return pipeline

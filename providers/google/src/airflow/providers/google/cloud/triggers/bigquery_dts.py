@@ -21,6 +21,7 @@ import asyncio
 from collections.abc import AsyncIterator, Sequence
 from typing import Any
 
+from google.api_core.gapic_v1.method import DEFAULT
 from google.cloud.bigquery_datatransfer_v1 import TransferRun, TransferState
 
 from airflow.providers.google.cloud.hooks.bigquery_dts import AsyncBiqQueryDataTransferServiceHook
@@ -91,6 +92,7 @@ class BigQueryDataTransferRunTrigger(BaseTrigger):
                     config_id=self.config_id,
                     run_id=self.run_id,
                     location=self.location,
+                    retry=DEFAULT,
                 )
                 state = transfer_run.state
                 self.log.info("Current state is %s", state)

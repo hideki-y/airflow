@@ -20,6 +20,7 @@ import asyncio
 from collections.abc import AsyncIterator, Sequence
 from typing import Any
 
+from google.api_core.gapic_v1.method import DEFAULT
 from google.cloud.devtools.cloudbuild_v1.types import Build
 
 from airflow.providers.google.cloud.hooks.cloud_build import CloudBuildAsyncHook
@@ -86,6 +87,7 @@ class CloudBuildCreateBuildTrigger(BaseTrigger):
                     id_=self.id_,
                     project_id=self.project_id,
                     location=self.location,
+                    retry=DEFAULT,
                 )
                 if cloud_build_instance._pb.status in (Build.Status.SUCCESS,):
                     yield TriggerEvent(

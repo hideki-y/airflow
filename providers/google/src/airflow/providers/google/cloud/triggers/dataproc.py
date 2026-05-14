@@ -27,6 +27,7 @@ from typing import TYPE_CHECKING, Any
 
 from asgiref.sync import sync_to_async
 from google.api_core.exceptions import NotFound
+from google.api_core.gapic_v1.method import DEFAULT
 from google.cloud.dataproc_v1 import Batch, Cluster, ClusterStatus, Job, JobStatus
 
 from airflow.providers.common.compat.sdk import AirflowException
@@ -202,7 +203,9 @@ class DataprocSubmitTrigger(DataprocBaseTrigger):
 
         try:
             while True:
-                job = await hook.get_job(project_id=self.project_id, region=self.region, job_id=self.job_id)
+                job = await hook.get_job(
+                    project_id=self.project_id, region=self.region, job_id=self.job_id, retry=DEFAULT
+                )
                 state = job.status.state
                 self.log.info("Dataproc job: %s is in state: %s", self.job_id, state)
                 if state in (JobStatus.State.DONE, JobStatus.State.CANCELLED, JobStatus.State.ERROR):
@@ -355,12 +358,15 @@ class DataprocSubmitJobDirectTrigger(DataprocBaseTrigger):
                 region=self.region,
                 job=self.job,
                 request_id=self.request_id,
+                retry=DEFAULT,
             )
             self.job_id = job_object.reference.job_id
             self.log.info("Dataproc job %s submitted successfully.", self.job_id)
 
             while True:
-                job = await hook.get_job(project_id=self.project_id, region=self.region, job_id=self.job_id)
+                job = await hook.get_job(
+                    project_id=self.project_id, region=self.region, job_id=self.job_id, retry=DEFAULT
+                )
                 state = job.status.state
                 self.log.info("Dataproc job: %s is in state: %s", self.job_id, state)
                 if state in (JobStatus.State.DONE, JobStatus.State.CANCELLED, JobStatus.State.ERROR):

@@ -22,6 +22,7 @@ from __future__ import annotations
 import asyncio
 from collections.abc import AsyncIterator, Sequence
 
+from google.api_core.gapic_v1.method import DEFAULT
 from google.cloud.dataplex_v1.types import DataScanJob
 
 from airflow.providers.google.cloud.hooks.dataplex import DataplexAsyncHook
@@ -93,6 +94,7 @@ class DataplexDataQualityJobTrigger(BaseTrigger):
                 region=self.region,
                 job_id=self.job_id,
                 data_scan_id=self.data_scan_id,
+                retry=DEFAULT,
             )
             state = job.state
             if state in (DataScanJob.State.FAILED, DataScanJob.State.SUCCEEDED, DataScanJob.State.CANCELLED):
@@ -181,6 +183,7 @@ class DataplexDataProfileJobTrigger(BaseTrigger):
                 region=self.region,
                 job_id=self.job_id,
                 data_scan_id=self.data_scan_id,
+                retry=DEFAULT,
             )
             state = job.state
             if state in (DataScanJob.State.FAILED, DataScanJob.State.SUCCEEDED, DataScanJob.State.CANCELLED):

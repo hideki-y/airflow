@@ -23,6 +23,7 @@ from collections.abc import AsyncIterator, Sequence
 from functools import cached_property
 from typing import Any
 
+from google.api_core.gapic_v1.method import DEFAULT
 from google.cloud.pubsub_v1.types import ReceivedMessage
 
 from airflow.providers.google.cloud.hooks.pubsub import PubSubAsyncHook
@@ -98,6 +99,7 @@ class PubsubPullTrigger(BaseEventTrigger):
                 subscription=self.subscription,
                 max_messages=self.max_messages,
                 return_immediately=True,
+                retry=DEFAULT,
             ):
                 if self.ack_messages:
                     await self.message_acknowledgement(pulled_messages)
@@ -114,6 +116,7 @@ class PubsubPullTrigger(BaseEventTrigger):
             project_id=self.project_id,
             subscription=self.subscription,
             messages=pulled_messages,
+            retry=DEFAULT,
         )
         self.log.info("Acknowledged ack_ids from subscription %s", self.subscription)
 

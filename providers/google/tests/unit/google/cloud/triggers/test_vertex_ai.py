@@ -25,6 +25,7 @@ import pytest_asyncio
 # For no Pydantic environment, we need to skip the tests
 pytest.importorskip("google.cloud.aiplatform_v1")
 
+from google.api_core.gapic_v1.method import DEFAULT
 from google.cloud.aiplatform_v1 import (
     BatchPredictionJob,
     HyperparameterTuningJob,
@@ -537,6 +538,7 @@ class TestRunPipelineJobTrigger:
             location=run_pipeline_job_trigger.location,
             job_id=run_pipeline_job_trigger.job_id,
             poll_interval=run_pipeline_job_trigger.poll_interval,
+            retry=DEFAULT,
         )
 
 
